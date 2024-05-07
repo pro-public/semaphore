@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+
+  db:
+    ports:
+      - 3306:3306
+    image: mysql:5.6
+    restart: unless-stopped
+    hostname: mysql
+    container_name: db
+    volumes:
+      - ./mysql_dump:/docker-entrypoint-initdb.d
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    env_file:
+      - .env_db
+
+  semaphore:
+    ports:
+      - 3000:3000
+    build:
+            context: .
+            dockerfile: Dockerfile    
+    image: ansiblesemaphore/semaphore:latest
+    restart: unless-stopped
+    container_name: semaphore
+    env_file:
+      - .env_app
+    depends_on:
+      - mysql
+
