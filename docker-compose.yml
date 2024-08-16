@@ -21,7 +21,7 @@ services:
       - 9090:3000
     build:
             context: .
-            dockerfile: Dockerfile    
+            dockerfile: Dockerfile
     image: ansiblesemaphore/semaphore:latest
     restart: unless-stopped
     container_name: semaphore_app
